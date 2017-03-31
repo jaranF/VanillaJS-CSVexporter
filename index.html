@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Form Submitting JSON</title>
+</head>
+
+<body>
+ <!-- The debug version of the server-side CSV exporter is 'json_decode.php'. It gives visual feedback of how the
+      export is configured and what the end results come out like. Uncomment the below line to use the version
+      that makes the browser properly download the CSV file as a file.
+<form name="jsonPOST" id="jsonPOST" enctype="application/x-www-form-urlencoded" action="json_decode_downloadable.php" method="POST"> -->
+<form name="jsonPOST" id="jsonPOST" enctype="application/x-www-form-urlencoded" action="json_decode.php" method="POST">
+<h1><label for="data">Enter the stringified JSON data to export to CSV</label></h1>
+<blockquote>
+<textarea name="data" id="data"
+  rows="10" cols="185">[{&quot;FIRST_NAME&quot;:&quot;catherine&quot;,&quot;LAST_NAME&quot;:&quot;\&quot;The Booze\&quot; Cruse&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;ccruse60@outlook.com&quot;,&quot;BTM_NUMBER&quot;:10605710881,&quot;BOOKING_METHOD&quot;:&quot;Online&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Fred&quot;,&quot;LAST_NAME&quot;:&quot;West&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;fwest1961@yahoo.com&quot;,&quot;BTM_NUMBER&quot;:1062531232,&quot;BOOKING_METHOD&quot;:&quot;Manual&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Honda&quot;,&quot;LAST_NAME&quot;:&quot;Fushjuitsma&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;HondaFushjuitsma@gmail.com&quot;,&quot;BTM_NUMBER&quot;:1057632303,&quot;BOOKING_METHOD&quot;:&quot;Manual&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Alexandra&quot;,&quot;LAST_NAME&quot;:&quot;Masonry&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;Alexandra.Kirally@oxford.ac.uk&quot;,&quot;BTM_NUMBER&quot;:1014202744,&quot;BOOKING_METHOD&quot;:&quot;Manual&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Costas&quot;,&quot;LAST_NAME&quot;:&quot;Boufontostremondos&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;waterfallsbytlc@gmail.com&quot;,&quot;BTM_NUMBER&quot;:1070341555,&quot;BOOKING_METHOD&quot;:&quot;Online&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:null}]</textarea>
+<h2>Is the export to be in the MS Excel variant of CSV?</h2>
+<input type="radio" name="determineIfExcelFormat" id="notExcelFormat" checked="checked" value="No">
+<label for="notExcelFormat">No &#133;</label>
+<input type="radio" name="determineIfExcelFormat" id="isExcelFormat" value="Yes">
+<label for="isExcelFormat">Yes</label>
+<hr></blockquote>
+<input type="submit" value="submit">
+</form>
+</body>
+</html>
