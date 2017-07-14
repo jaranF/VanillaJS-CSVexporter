@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>JSON Generating Form (Relies on JavaScript CSVExporter.js)</title>
+  <script type="text/javascript" src="build/js/polyfill.js"></script>
+  <script type="text/javascript" src="build/js/csvexporter.js"></script>
+  <script type="text/javascript">
+    window.onload = function() {
+      var d = document;
+
+      function pickUpJSONandConvert(e) {
+        var objJSON = JSON.parse(d.getElementById("data").value);
+        //var sConvertedToCSV = exportCSV(objJSON);
+        d.getElementById("csv").value = objJSON.length;
+        tddjs.each(objJSON, function(i, v) {
+          console.log(i);
+        });
+        e.preventDefault();
+
+        return false;
+      }
+      if (window.attachEvent) {
+        attachEvent("onsubmit", pickUpJSONandConvert);
+      } else {
+        addEventListener("submit", pickUpJSONandConvert);
+      }
+    };
+  </script>
+  <style>
+    #jsonPOSTform > * { margin-left: 3em; }
+  </style>
+</head>
+<body>
+<!-- The form below submits back to nowhere (well, itself to be accurate). That is because its the job of the JavaScript to perform the CSV conversion and export. -->
+<form name="jsonPOSTform" id="jsonPOSTform" enctype="application/x-www-form-urlencoded" action="index.html" method="POST">
+  <h1><label for="data">Enter the stringified JSON data to export to CSV</label></h1>
+    <textarea name="data" id="data"
+              rows="10" cols="185">[{&quot;FIRST_NAME&quot;:&quot;catherine&quot;,&quot;LAST_NAME&quot;:&quot;\&quot;The Booze\&quot; Cruse&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;ccruse60@outlook.com&quot;,&quot;BTM_NUMBER&quot;:10605710881,&quot;BOOKING_METHOD&quot;:&quot;Online&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Fred&quot;,&quot;LAST_NAME&quot;:&quot;West&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;fwest1961@yahoo.com&quot;,&quot;BTM_NUMBER&quot;:1062531232,&quot;BOOKING_METHOD&quot;:&quot;Manual&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Honda&quot;,&quot;LAST_NAME&quot;:&quot;Fushjuitsma&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;HondaFushjuitsma@gmail.com&quot;,&quot;BTM_NUMBER&quot;:1057632303,&quot;BOOKING_METHOD&quot;:&quot;Manual&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Alexandra&quot;,&quot;LAST_NAME&quot;:&quot;Masonry&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;Alexandra.Kirally@oxford.ac.uk&quot;,&quot;BTM_NUMBER&quot;:1014202744,&quot;BOOKING_METHOD&quot;:&quot;Manual&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Costas&quot;,&quot;LAST_NAME&quot;:&quot;Boufontostremondos&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;waterfallsbytlc@gmail.com&quot;,&quot;BTM_NUMBER&quot;:1070341555,&quot;BOOKING_METHOD&quot;:&quot;Online&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:null}]</textarea>
+    <h2>Is the export to be in the MS Excel variant of CSV?</h2>
+    <input type="radio" name="determineIfExcelFormat" id="notExcelFormat" checked="checked" value="No">
+    <label for="notExcelFormat">No &#133;</label>
+    <input type="radio" name="determineIfExcelFormat" id="isExcelFormat" value="Yes">
+    <label for="isExcelFormat">Yes</label>
+    <hr>
+  <input type="submit" value="submit">
+</form>
+<hr>
+<div id="result">
+<h1><label for="csv">Result (Converted to CSV)</label></h1>
+
+<textarea name="csv" id="csv"
+          rows="10" cols="185"></textarea>
+</div>
+</body>
+</html>
