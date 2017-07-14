@@ -1,0 +1,1 @@
+[14-July-2017] Goals of this project are have the CVSExporter function take a JSON object of stuff to convert to CSV, convert it to CSV then force the browser to download it. Will have to to use a server sidefall back for Safari as it does not seem to support "window.URL.createObjectURL('blob');" and "a.download = (fileName + ".csv");"
