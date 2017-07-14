@@ -8,9 +8,9 @@
 <body>
  <!-- The debug version of the server-side CSV exporter is 'json_decode.php'. It gives visual feedback of how the
       export is configured and what the end results come out like. Uncomment the below line to use the version
-      that makes the browser properly download the CSV file as a file.
-<form name="jsonPOST" id="jsonPOST" enctype="application/x-www-form-urlencoded" action="json_decode_downloadable.php" method="POST"> -->
-<form name="jsonPOST" id="jsonPOST" enctype="application/x-www-form-urlencoded" action="json_decode.php" method="POST">
+      that makes the browser properly download the CSV file as a file.                                            -->
+<form name="jsonPOST" id="jsonPOST" enctype="application/x-www-form-urlencoded" action="json_decode_downloadable_hardcoded_mock.php" method="POST">
+<!--<form name="jsonPOST" id="jsonPOST" enctype="application/x-www-form-urlencoded" action="json_decode.php" method="POST">-->
 <h1><label for="data">Enter the stringified JSON data to export to CSV</label></h1>
 <blockquote>
 <textarea name="data" id="data"
