@@ -3,6 +3,9 @@
 <head lang="en">
   <meta charset="UTF-8">
   <title>Form Submitting JSON</title>
+  <style>
+    textarea { font-family: "Courier New", Courier, sans-serif; font-size: 1em; font-weight: 700; }
+  </style>
 </head>
 
 <body>
