@@ -9,10 +9,6 @@
 </head>
 
 <body>
-<?php
-  echo isset($_POST["isExcelFormat"]) ? 'true' : 'false';
-?>
-<hr>
 <textarea cols="190" rows="40">
 <?php
 define('CRLF', chr(10));
@@ -46,8 +42,8 @@ define('CRLF', chr(10));
     }
 
 $json = isset($_POST["data"]) ? $_POST["data"] : '["apple","orange","banana","strawberry"]';
-$bMSExcel = isset($_POST["isExcelFormat"]) ? $_POST["isExcelFormat"] === 'Yes' ? true : false : false;
-$ar = json_decode($json,true);
+$bMSExcel = isset($_POST["isExcelFormatExport"]) ? $_POST["isExcelFormatExport"] === '1' ? true : false : false;
+$ar = json_decode($json, true);
 $sCSV = '';
 foreach ($ar as $row) {
 //    $sCSV = parseRow($row, $sCSV === '');
