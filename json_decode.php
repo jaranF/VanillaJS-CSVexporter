@@ -50,15 +50,15 @@ $bMSExcel = isset($_POST["isExcelFormat"]) ? $_POST["isExcelFormat"] === 'Yes' ?
 $ar = json_decode($json,true);
 $sCSV = '';
 foreach ($ar as $row) {
-//    $sCVS = parseRow($row, $sCVS === '');
-    if ($sCVS == '')
+//    $sCSV = parseRow($row, $sCSV === '');
+    if ($sCSV == '')
     {
-        $sCVS = parseRow($row, true, $bMSExcel);
+        $sCSV = parseRow($row, true, $bMSExcel);
     }
-    $sCVS .= parseRow($row, false, $bMSExcel);
+    $sCSV .= parseRow($row, false, $bMSExcel);
 
 }
-echo $sCVS;
+echo $sCSV;
 ?>
 </textarea>
 </body>
