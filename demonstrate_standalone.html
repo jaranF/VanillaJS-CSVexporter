@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Standlone Demo Page of CSVExporter (No Helper JSON-To-CSV Results Form For Showing CSV)</title>
+  <script type="text/javascript" src="build/js/polyfill.js"></script>
+  <script type="text/javascript" src="build/js/injector.js"></script>
+  <script type="text/javascript" src="build/js/csvexporter.js"></script>
+  <script type="text/javascript" src="build/js/csvexport_setup.js"></script>
+  <style>
+    #jsonPOSTform > * { margin-left: 3em; }
+    iframe { border: 1px solid blue; }
+    .submitBtn > input { margin: 1em auto; border: 1px solid teal; padding: 0.5em 2em;
+      font: 700 1.25em Arial,Helvetica,sans-serif; border-radius: 3px; box-shadow: slategray 3px 3px 3px; }
+    textarea { font: 0.8133em small-caps bold Courier,"Courier New"; }
+  </style>
+</head>
+<body>
+<!-- The form below submits back to nowhere (well, itself to be accurate). That is because its the job of the JavaScript to perform the CSV conversion and export. -->
+<form name="jsonPOSTform" id="jsonPOSTform" target="_self" enctype="application/x-www-form-urlencoded" action="demonstrate_standalone.html" method="POST">
+  <h1><label for="data">Enter the stringified JSON data to export to CSV</label></h1>
+  <textarea name="data" id="data"
+            rows="10" cols="185">[{&quot;FIRST_NAME&quot;:&quot;catherine&quot;,&quot;LAST_NAME&quot;:&quot;\&quot;The Booze\&quot; Cruse&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;ccruse60@outlook.com&quot;,&quot;BTM_NUMBER&quot;:10605710881,&quot;BOOKING_METHOD&quot;:&quot;Online&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Fred&quot;,&quot;LAST_NAME&quot;:&quot;West&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;fwest1961@yahoo.com&quot;,&quot;BTM_NUMBER&quot;:1062531232,&quot;BOOKING_METHOD&quot;:&quot;Manual&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Honda&quot;,&quot;LAST_NAME&quot;:&quot;Fushjuitsma&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;HondaFushjuitsma@gmail.com&quot;,&quot;BTM_NUMBER&quot;:1057632303,&quot;BOOKING_METHOD&quot;:&quot;Manual&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Alexandra&quot;,&quot;LAST_NAME&quot;:&quot;Masonry&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;Alexandra.Kirally@oxford.ac.uk&quot;,&quot;BTM_NUMBER&quot;:1014202744,&quot;BOOKING_METHOD&quot;:&quot;Manual&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:&quot;&quot;},{&quot;FIRST_NAME&quot;:&quot;Costas&quot;,&quot;LAST_NAME&quot;:&quot;Boufontostremondos&quot;,&quot;EMAIL_ADDRESS&quot;:&quot;waterfallsbytlc@gmail.com&quot;,&quot;BTM_NUMBER&quot;:1070341555,&quot;BOOKING_METHOD&quot;:&quot;Online&quot;,&quot;ELIGIBLE&quot;:&quot;Yes&quot;,&quot;NOTES&quot;:null}]</textarea>
+  <h2>Is the export to be in the MS Excel variant of CSV?</h2>
+  <input type="radio" name="isExcelFormatExport" id="notExcelFormat" checked="checked" value="0">
+  <label for="notExcelFormat">No &#133;</label>
+  <input type="radio" name="isExcelFormatExport" id="isExcelFormat" value="1">
+  <label for="isExcelFormat">Yes</label>
+  <h2>Enter the file name to have the export saved as</h2>
+  <label for="filenameString">Filename: </label><input value="myfile" type="text" name="filenameString" id="filenameString">
+  <div class="submitBtn">
+    <input type="submit" value="submit">
+  </div>
+</form>
+<hr>
