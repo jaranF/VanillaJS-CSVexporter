@@ -2,64 +2,17 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>6JSON Generating Form (Relies on JavaScript CSVExporter.js)</title>
+  <title>JSON Generating Form (Relies on JavaScript CSVExporter.js)</title>
   <script type="text/javascript" src="build/js/polyfill.js"></script>
   <script type="text/javascript" src="build/js/injector.js?m=0"></script>
   <script type="text/javascript" src="build/js/csvexporter.js"></script>
-  <script type="text/javascript">
-    window.onload = function() {
-      var d = document, eleForm = d.getElementById("jsonPOSTform");
-
-      function pickUpJSONandConvert() {
-        var objJSON = JSON.parse(d.getElementById("data").value);
-        var sfileName = d.getElementById("filenameString").value;
-        var isExcelFormat = !!(eleForm.elements["isExcelFormatExport"].value - 0)
-        var mock = {
-          ENVINFO: {
-            browser: {
-              isIE: false,
-              isSafari: false,
-              version: 10
-            }
-          }
-        };
-        var fnSafariDownloadfallback = {
-          safariDownloadFallback:  function () {
-            var d = document;
-            var eleIframe = d.createElement("IFRAME");
-            eleIframe.setAttribute("name", "tempSafariDownloadFrame");
-            eleIframe.setAttribute("sandbox", "allow-forms");
-            eleIframe.setAttribute("height", "1");
-            eleIframe.setAttribute("width", "1");
-            eleIframe.setAttribute("style", "display: none;");
-
-            eleForm.setAttribute("target", "tempSafariDownloadFrame");
-            d.getElementById("result").appendChild(eleIframe);
-            eleForm.setAttribute("action", "json_decode_and_download.php");
-            eleForm.submit();
-          }
-        };
-        var sConvertedToCSV = app.exportCSV.inject([mock, fnSafariDownloadfallback]).andExecuteWith(objJSON, sfileName, isExcelFormat);
-        d.getElementById("csv").value = sConvertedToCSV;
-      } //End #pickUpJSONandConvert()'
-
-      if (window.attachEvent) {
-        eleForm.attachEvent("onsubmit", pickUpJSONandConvert);
-      } else {
-        eleForm.addEventListener("submit", function(evt) {
-          pickUpJSONandConvert();
-          evt.preventDefault();
-          return false;
-        });
-      }
-    };
-  </script>
+  <script type="text/javascript" src="build/js/csvexport_setup.js?m=01"></script>
   <style>
     #jsonPOSTform > * { margin-left: 3em; }
     iframe { border: 1px solid blue; }
     .submitBtn > input { margin: 1em auto; border: 1px solid teal; padding: 0.5em 2em;
       font: 700 1.25em Arial,Helvetica,sans-serif; border-radius: 3px; box-shadow: slategray 3px 3px 3px; }
-    textarea { font: 0.75em small-caps bold Courier,"Courier New"; }
+    textarea { font: 0.8133em small-caps bold Courier,"Courier New"; }
   </style>
 </head>
 <body>
