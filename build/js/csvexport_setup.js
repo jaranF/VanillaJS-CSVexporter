@@ -17,6 +17,7 @@ window.onload = function() {
     function safariFallback() {
       var d = document, eleResult = d.getElementById("result"),
           eleIframe = document.getElementById("tempSafariDownloadFrame");
+
       if (eleIframe === null) {
         eleIframe = d.createElement("IFRAME");
         eleIframe.setAttribute("style", "display: none;");
@@ -31,17 +32,21 @@ window.onload = function() {
       eleForm.setAttribute("target", "tempSafariDownloadFrame");
       eleForm.setAttribute("action", "json_decode_and_download.php");
       eleForm.submit();
-
     } //end fn safariDownloadfallback
     var fnSafariDownloadfallback = {
       safariDownloadFallback:  safariFallback
     };
     var sConvertedToCSV = app.exportCSV.inject([mock, fnSafariDownloadfallback]).andExecuteWith(objJSON, sfileName, isExcelFormat);
     d.getElementById("csv").value = sConvertedToCSV;
-
   } //End #pickUpJSONandConvert()'
   if (window.attachEvent) {
-    eleForm.attachEvent("onsubmit", pickUpJSONandConvert);
+    eleForm.attachEvent("onsubmit", function(evt) {
+      evt = evt || window.event;
+      pickUpJSONandConvert();
+      evt.preventDefault ? evt.preventDefault() : (evt.returnValue = false);
+    });
+
+
   } else {
     eleForm.addEventListener("submit", function(evt) {
       pickUpJSONandConvert();
