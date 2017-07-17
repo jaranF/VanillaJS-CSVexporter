@@ -23,6 +23,7 @@ window.onload = function() {
         eleIframe.setAttribute("name", "tempSafariDownloadFrame");
         eleIframe.setAttribute("id", "tempSafariDownloadFrame");
         eleIframe.setAttribute("sandbox", "allow-forms");
+        eleIframe.setAttribute("sandbox", "allow-scripts");
         eleIframe.setAttribute("height", "1");
         eleIframe.setAttribute("width", "1");
         eleResult.appendChild(eleIframe);
