@@ -1,3 +1,11 @@
+/*global bindToObject: false, tddjs: false, errorIfOverwrite: false, bindSuffix: false, angular: false, jstestdriver: false, beforeEach: false, afterEach: false, inject: false, andExecuteWith: false, spyOn: false, describe: false, beforeEach: false, inject: false, it: false, expect: false, module: false, : false, app: false, exportCSV: false */
+/*jslint newcap: true, white: true, sloppy: true, vars: true, unparam: true */
+
+/**
+ * @author Jaran F
+ * @description Dependency injection via a proxy-ing object that gets bound to 'this' for the function / method that has stuff injected into it. See https://github.com/jaranF/VanillaJS-Boilerplate_Patterns-Injector
+ */
+
 if (!Function.prototype.inject) {
   Function.prototype.inject = function(injectionDefinition) {
     var arrArgsToInject, fnToInjectInto =  this, objInjectedOnto;
@@ -37,4 +45,5 @@ if (!Function.prototype.inject) {
       }
     };
   };
+
 }

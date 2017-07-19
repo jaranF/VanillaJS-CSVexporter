@@ -1,4 +1,4 @@
-/*global angular: false, jstestdriver: false, beforeEach: false, afterEach: false, inject: false, spyOn: false, describe: false, beforeEach: false, inject: false, it: false, expect: false, module: false, : false */
+/*global angular: false, jstestdriver: false, beforeEach: false, afterEach: false, inject: false, andExecuteWith: false, spyOn: false, describe: false, beforeEach: false, inject: false, it: false, expect: false, module: false, : false, app: false, exportCSV: false */
 /*jslint newcap: true, white: true, sloppy: true, vars: true, unparam: true */
 
 /**
