@@ -84,6 +84,16 @@ describe('exportCSV2 (via Inner function exposer)', function () {
     expect(result).toEqual("FIRST_NAME,LAST_NAME,EMAIL_ADDRESS,BTM_NUMBER,BOOKING_METHOD,ELIGIBLE,NOTES" + CRLF);
   });
 
+  it("should escape embedded double-quotes in data as it serializes an array (via \'inner\' function \'parseRow()\')", function () {
+    app.exportCSV = exposePrivateFunctions(app.exportCSV);
+    app.exportCSV('[{"0":"0"}]', "", false);
+    var mockRowAsArray = ["FIRST_NAME", "LAST_NAME", "YE_OLDE_\"ELECTRONIC\"_MAIL_ADDRESS", "BTM_NUMBER", "BOOKING_METHOD", "ELIGIBLE", "NOTES"];
+    var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
+    expect(result).toEqual("FIRST_NAME,LAST_NAME,\"YE_OLDE_\"\"ELECTRONIC\"\"_MAIL_ADDRESS\",BTM_NUMBER,BOOKING_METHOD,ELIGIBLE,NOTES" + CRLF);
+    //toEqual =             FIRST_NAME,LAST_NAME,"YE_OLDE_""ELECTRONIC""_MAIL_ADDRESS",BTM_NUMBER,BOOKING_METHOD,ELIGIBLE,NOTES
+  });
+
+
 
   afterEach(function () { //xhr, ENVINFO, JSONData, fileName, bCSVforMSExcel
     delete Function.prototype.reflect;
