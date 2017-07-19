@@ -118,6 +118,23 @@ describe('exportCSV2 (via Inner function exposer)', function () {
     //                       ="FIRST_NAME",="LAST_NAME",="EMAIL_ADDRESS",="BTM_NUMBER",="BOOKING_METHOD",="ELIGIBLE",="NOTES"
   });
 
+  it("should serialize (in MS Excel CSV format) an object passed into it (via \'inner'...private scope function \'parseRow()\')", function () {
+    app.exportCSV = exposePrivateFunctions(app.exportCSV);
+    app.exportCSV('[{"0":"0"}]', "", true); //true means serialize to a MS Excel flavoured variant of CSV
+    var mockRowAsObj = {
+      OBJECTFIELDNAME1: "FIRST_NAME",
+      OBJECTFIELDNAME2: "LAST_NAME",
+      OBJECTFIELDNAME3: "EMAIL_ADDRESS",
+      OBJECTFIELDNAME4: "BTM_NUMBER",
+      OBJECTFIELDNAME5: "BOOKING_METHOD",
+      OBJECTFIELDNAME6: "ELIGIBLE",
+      OBJECTFIELDNAME7: "NOTES"
+    };
+    var result = app.exportCSV.reflect["parseRow"](mockRowAsObj);
+    expect(result).toEqual("=\"FIRST_NAME\",=\"LAST_NAME\",=\"EMAIL_ADDRESS\",=\"BTM_NUMBER\",=\"BOOKING_METHOD\",=\"ELIGIBLE\",=\"NOTES\"" + CRLF);
+  });
+
+
   afterEach(function () { //xhr, ENVINFO, JSONData, fileName, bCSVforMSExcel
     delete Function.prototype.reflect;
     app.exportCSV = fnOriginalUnreflectedFunction;
