@@ -1,0 +1,29 @@
+{
+  "name": "csv-exporter",
+  "version": "1.0.0",
+  "description": "CVSExporter takes a JSON object of stuff to convert to CSV, convert its and intiates a download automatically in the browser to put resulting csv conversion on the user's local file system ",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jaranF/VanillaJS-CSVexporter.git"
+  },
+  "keywords": [
+    "CSV",
+    "export",
+    "JSON",
+    "conversion",
+    "browser",
+    "download"
+  ],
+  "author": "JaranF",
+  "license": "MIT",
+  "devDependencies": {
+    "jasmine-core": "^2.6.4",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.0"
+  }
+}
