@@ -240,7 +240,65 @@ describe('exportCSV2 (via Inner function exposer)', function () {
 
       expect(result).toEqual(expected);
     });
+    it("should serialize an entire JSON object (i.e. integration test of MS Excel CSV format) passed into it and put fieldname labels at the start as a header row", function () {
+      var mockJSONData = [{
+        "FIRST_NAME": "catherine",
+        "LAST_NAME": "\"The Booze\" Cruse",
+        "EMAIL_ADDRESS": "ccruse60@gmail.com",
+        "BTM_NUMBER": 106057075,
+        "BOOKING_METHOD": "Online",
+        "ELIGIBLE": "Yes",
+        "NOTES": ""
+      },
+        {
+          "FIRST_NAME": "Fred",
+          "LAST_NAME": "West",
+          "EMAIL_ADDRESS": "fwest1961@gmail.com",
+          "BTM_NUMBER": 106253272,
+          "BOOKING_METHOD": "Manual",
+          "ELIGIBLE": "Yes",
+          "NOTES": ""
+        },
+        {
+          "FIRST_NAME": "Aikdo",
+          "LAST_NAME": "Fushjuitsma",
+          "EMAIL_ADDRESS": "AikdoFushjuitsma@gmail.com",
+          "BTM_NUMBER": 105769990,
+          "BOOKING_METHOD": "Manual",
+          "ELIGIBLE": "Yes",
+          "NOTES": ""
+        },
+        {
+          "FIRST_NAME": "Alexandra",
+          "LAST_NAME": "Masonry",
+          "EMAIL_ADDRESS": "Alexandra.Masonry@roehampton.ac.uk",
+          "BTM_NUMBER": 101420560,
+          "BOOKING_METHOD": "Manual",
+          "ELIGIBLE": "Yes",
+          "NOTES": ""
+        },
+        {
+          "FIRST_NAME": "Costas",
+          "LAST_NAME": "Boufontostremondos",
+          "EMAIL_ADDRESS": "waterfallsbytlc@gmail.com",
+          "BTM_NUMBER": 107034189,
+          "BOOKING_METHOD": "Online",
+          "ELIGIBLE": "Yes",
+          "NOTES": null
+        }
+      ];
+      var result = app.exportCSV(mockJSONData, "", true); //false means serialize to standard RFC-4180 format NOT quirky the MS Excel flavoured variant of CSV
+      var expected = "=\"FIRST_NAME\",=\"LAST_NAME\",=\"EMAIL_ADDRESS\",=\"BTM_NUMBER\",=\"BOOKING_METHOD\",=\"ELIGIBLE\",=\"NOTES\"" + CRLF +
+          "=\"catherine\",=\"\"\"The Booze\"\" Cruse\",=\"ccruse60@gmail.com\",=\"106057075\",=\"Online\",=\"Yes\",=\"\"" + CRLF +
+          "=\"Fred\",=\"West\",=\"fwest1961@gmail.com\",=\"106253272\",=\"Manual\",=\"Yes\",=\"\"" + CRLF +
+          "=\"Aikdo\",=\"Fushjuitsma\",=\"AikdoFushjuitsma@gmail.com\",=\"105769990\",=\"Manual\",=\"Yes\",=\"\"" + CRLF +
+          "=\"Alexandra\",=\"Masonry\",=\"Alexandra.Masonry@roehampton.ac.uk\",=\"101420560\",=\"Manual\",=\"Yes\",=\"\"" + CRLF +
+          "=\"Costas\",=\"Boufontostremondos\",=\"waterfallsbytlc@gmail.com\",=\"107034189\",=\"Online\",=\"Yes\",=\"\"" + CRLF;
+
+      expect(result).toEqual(expected);
+    });
   }); //End integration tests
+
 
 
 
