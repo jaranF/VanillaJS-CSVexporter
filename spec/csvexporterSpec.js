@@ -159,6 +159,20 @@ describe('exportCSV2 (via Inner function exposer)', function () {
     expect(result).toEqual("=\"FIRST_NAME\",=\"LAST_NAME\",=\"EMAIL_ADDRESS\",=\"\"\"BTM\"\"_NUMBER\",=\"BOOKING_METHOD\",=\"ELIGIBLE\",=\"NOTES\"" + CRLF);
   });
 
+  it("should gracefully handle situations where a field value in a column is empty", function () {
+    app.exportCSV = exposePrivateFunctions(app.exportCSV);
+    app.exportCSV('[{"0":"0"}]', "", false);
+    var mockRowAsArray = ["Breakfast", "", "Dinner"];
+    var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
+    expect(result).toEqual("Breakfast,,Dinner" + CRLF);
+    mockRowAsArray = ["", "Lunch", "Dinner"];
+    result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
+    expect(result).toEqual(",Lunch,Dinner" + CRLF);
+    mockRowAsArray = ["Breakfast", "Lunch", ""];
+    result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
+    expect(result).toEqual("Breakfast,Lunch," + CRLF);
+  });
+
 
   afterEach(function () { //xhr, ENVINFO, JSONData, fileName, bCSVforMSExcel
     delete Function.prototype.reflect;
