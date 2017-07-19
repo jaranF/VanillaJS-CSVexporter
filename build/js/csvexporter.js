@@ -4,7 +4,7 @@ var app = app || {};
   ns.exportCSV = function (JSONData, fileName, bCSVforMSExcel) {
     var CRLF = String.fromCharCode(13) + String.fromCharCode(10); //Carriage Return + Line Feed
     var sSerializedToCsv = "";
-    var __browser = this.__ENVINFO.browser;
+    var __browser = this.__ENVINFO ? this.__ENVINFO.browser : {};
     bCSVforMSExcel = bCSVforMSExcel !== undefined ? bCSVforMSExcel : false;
 
     function parseRow(rowData) {
