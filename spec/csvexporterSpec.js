@@ -173,8 +173,15 @@ describe('exportCSV2 (via Inner function exposer)', function () {
     expect(result).toEqual("Breakfast,Lunch," + CRLF);
   });
 
+  it("should gracefully handle null values in data and replace them with an empty strings", function () {
+    app.exportCSV = exposePrivateFunctions(app.exportCSV);
+    app.exportCSV('[{"0":"0"}]', "", false);
+    var mockRowAsArray = ["Breakfast", null, "Dinner"];
+    var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
+    expect(result).toEqual("Breakfast,,Dinner" + CRLF);
+  });
 
-  afterEach(function () { //xhr, ENVINFO, JSONData, fileName, bCSVforMSExcel
+   afterEach(function () { //xhr, ENVINFO, JSONData, fileName, bCSVforMSExcel
     delete Function.prototype.reflect;
     app.exportCSV = fnOriginalUnreflectedFunction;
   });
