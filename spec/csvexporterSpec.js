@@ -59,25 +59,18 @@ describe('exportCSV2 (via Inner function exposer)', function () {
 
   });
 
-  afterEach(function () { //xhr, ENVINFO, JSONData, fileName, bCSVforMSExcel
-    delete Function.prototype.reflect;
-    app.exportCSV = fnOriginalUnreflectedFunction;
-  });
-
-
-
   it("should serialize an array passed into it (via \'inner'...private scope function \'parseRow()\')", function () {
-    //expect(true).toEqual(true);
-    //app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    //app.exportCSV('[{"0":"0"}]', "", false);
-    //var mockRowAsArray = ["FIRST_NAME", "LAST_NAME", "EMAIL_ADDRESS", "BTM_NUMBER", "BOOKING_METHOD", "ELIGIBLE", "NOTES"];
-    //var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
-    //expect(result).toEqual("FIRST_NAME,LAST_NAME,EMAIL_ADDRESS,BTM_NUMBER,BOOKING_METHOD,ELIGIBLE,NOTES" + CRLF);
+    app.exportCSV = exposePrivateFunctions(app.exportCSV);
+    app.exportCSV('[{"0":"0"}]', "", false); //Reqd to make the reflection of the inner...private scope function to take place.
+    var mockRowAsArray = ["FIRST_NAME", "LAST_NAME", "EMAIL_ADDRESS", "BTM_NUMBER", "BOOKING_METHOD", "ELIGIBLE", "NOTES"];
+    var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
+    expect(result).toEqual("FIRST_NAME,LAST_NAME,EMAIL_ADDRESS,BTM_NUMBER,BOOKING_METHOD,ELIGIBLE,NOTES" + CRLF);
   });
 
-  xit("should serialize an object passed into it (via \'inner'...private scope function \'parseRow()\')", function () {
+
+  it("should serialize an object passed into it (via \'inner'...private scope function \'parseRow()\')", function () {
     app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    app.exportCSV(xhr, ENVINFO, '[{"0":"0"}]', "", false);
+    app.exportCSV('[{"0":"0"}]', "", false);
     var mockRowAsObj = {
       OBJECTFIELDNAME1: "FIRST_NAME",
       OBJECTFIELDNAME2: "LAST_NAME",
@@ -90,220 +83,10 @@ describe('exportCSV2 (via Inner function exposer)', function () {
     var result = app.exportCSV.reflect["parseRow"](mockRowAsObj);
     expect(result).toEqual("FIRST_NAME,LAST_NAME,EMAIL_ADDRESS,BTM_NUMBER,BOOKING_METHOD,ELIGIBLE,NOTES" + CRLF);
   });
-  xit("should escape embedded double-quotes in data as it serializes an array (via \'inner\' function \'parseRow()\')", function () {
-    app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    app.exportCSV(xhr, ENVINFO, '[{"0":"0"}]', "", false);
-    var mockRowAsArray = ["FIRST_NAME", "LAST_NAME", "YE_OLDE_\"ELECTRONIC\"_MAIL_ADDRESS", "BTM_NUMBER", "BOOKING_METHOD", "ELIGIBLE", "NOTES"];
-    var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
-    expect(result).toEqual("FIRST_NAME,LAST_NAME,\"YE_OLDE_\"\"ELECTRONIC\"\"_MAIL_ADDRESS\",BTM_NUMBER,BOOKING_METHOD,ELIGIBLE,NOTES" + CRLF);
-    //toEqual =             FIRST_NAME,LAST_NAME,"YE_OLDE_""ELECTRONIC""_MAIL_ADDRESS",BTM_NUMBER,BOOKING_METHOD,ELIGIBLE,NOTES
-  });
-  xit("should escape embedded double-quotes in data as it serializes an object (via \'inner\' function \'parseRow()\')", function () {
-    app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    app.exportCSV(xhr, ENVINFO, '[{"0":"0"}]', "", false);
-    var mockRowAsObj = {
-      OBJECTFIELDNAME1: "FIRST_NAME",
-      OBJECTFIELDNAME2: "LAST_NAME",
-      OBJECTFIELDNAME3: "EMAIL_ADDRESS",
-      OBJECTFIELDNAME4: "\"BTM\"_NUMBER",
-      OBJECTFIELDNAME5: "BOOKING_METHOD",
-      OBJECTFIELDNAME6: "ELIGIBLE",
-      OBJECTFIELDNAME7: "NOTES"
-    };
-    var result = app.exportCSV.reflect["parseRow"](mockRowAsObj);
-    expect(result).toEqual("FIRST_NAME,LAST_NAME,EMAIL_ADDRESS,\"\"\"BTM\"\"_NUMBER\",BOOKING_METHOD,ELIGIBLE,NOTES" + CRLF);
-  });
-  xit("should serialize (in MS Excel CSV format) an array passed into it (via \'inner'...private scope function \'parseRow()\')", function () {
-    app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    app.exportCSV(xhr, ENVINFO, '[{"0":"0"}]', "", true); //true means serialize to a MS Excel flavoured variant of CSV
-    var mockRowAsArray = ["FIRST_NAME", "LAST_NAME", "EMAIL_ADDRESS", "BTM_NUMBER", "BOOKING_METHOD", "ELIGIBLE", "NOTES"];
-    var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
-    expect(result).toEqual("=\"FIRST_NAME\",=\"LAST_NAME\",=\"EMAIL_ADDRESS\",=\"BTM_NUMBER\",=\"BOOKING_METHOD\",=\"ELIGIBLE\",=\"NOTES\"" + CRLF);
-    //                       ="FIRST_NAME",="LAST_NAME",="EMAIL_ADDRESS",="BTM_NUMBER",="BOOKING_METHOD",="ELIGIBLE",="NOTES"
-  });
-  xit("should serialize (in MS Excel CSV format) an object passed into it (via \'inner'...private scope function \'parseRow()\')", function () {
-    app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    app.exportCSV(xhr, ENVINFO, '[{"0":"0"}]', "", true); //true means serialize to a MS Excel flavoured variant of CSV
-    var mockRowAsObj = {
-      OBJECTFIELDNAME1: "FIRST_NAME",
-      OBJECTFIELDNAME2: "LAST_NAME",
-      OBJECTFIELDNAME3: "EMAIL_ADDRESS",
-      OBJECTFIELDNAME4: "BTM_NUMBER",
-      OBJECTFIELDNAME5: "BOOKING_METHOD",
-      OBJECTFIELDNAME6: "ELIGIBLE",
-      OBJECTFIELDNAME7: "NOTES"
-    };
-    var result = app.exportCSV.reflect["parseRow"](mockRowAsObj);
-    expect(result).toEqual("=\"FIRST_NAME\",=\"LAST_NAME\",=\"EMAIL_ADDRESS\",=\"BTM_NUMBER\",=\"BOOKING_METHOD\",=\"ELIGIBLE\",=\"NOTES\"" + CRLF);
-  });
-  xit("should escape embedded double-quotes in data as it serializes (in MS Excel CSV format) an array (via \'inner\' function \'parseRow()\')", function () {
-    app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    app.exportCSV(xhr, ENVINFO, '[{"0":"0"}]', "", true); //true means serialize to a MS Excel flavoured variant of CSV
-    var mockRowAsArray = ["FIRST_NAME", "LAST_NAME", "YE_OLDE_\"ELECTRONIC\"_MAIL_ADDRESS", "BTM_NUMBER", "BOOKING_METHOD", "ELIGIBLE", "NOTES"];
-    var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
-    expect(result).toEqual("=\"FIRST_NAME\",=\"LAST_NAME\",=\"YE_OLDE_\"\"ELECTRONIC\"\"_MAIL_ADDRESS\",=\"BTM_NUMBER\",=\"BOOKING_METHOD\",=\"ELIGIBLE\",=\"NOTES\"" + CRLF);
-    //toEqual =             ="FIRST_NAME",=\"="LAST_NAME",="YE_OLDE_""ELECTRONIC""_MAIL_ADDRESS",="BTM_NUMBER",="BOOKING_METHOD",="ELIGIBLE",="NOTES"
-  });
-  xit("should escape embedded double-quotes in data as it serializes (in MS Excel CSV format) an object (via \'inner\' function \'parseRow()\')", function () {
-    app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    app.exportCSV(xhr, ENVINFO, '[{"0":"0"}]', "", true); //true means serialize to a MS Excel flavoured variant of CSV
-    var mockRowAsObj = {
-      OBJECTFIELDNAME1: "FIRST_NAME",
-      OBJECTFIELDNAME2: "LAST_NAME",
-      OBJECTFIELDNAME3: "EMAIL_ADDRESS",
-      OBJECTFIELDNAME4: "\"BTM\"_NUMBER",
-      OBJECTFIELDNAME5: "BOOKING_METHOD",
-      OBJECTFIELDNAME6: "ELIGIBLE",
-      OBJECTFIELDNAME7: "NOTES"
-    };
-    var result = app.exportCSV.reflect["parseRow"](mockRowAsObj);
-    expect(result).toEqual("=\"FIRST_NAME\",=\"LAST_NAME\",=\"EMAIL_ADDRESS\",=\"\"\"BTM\"\"_NUMBER\",=\"BOOKING_METHOD\",=\"ELIGIBLE\",=\"NOTES\"" + CRLF);
-  });
-  xit("should gracefully handle situations where a field value in a column is empty", function () {
-    app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    app.exportCSV(xhr, ENVINFO, '[{"0":"0"}]', "", false);
-    var mockRowAsArray = ["Breakfast", "", "Dinner"];
-    var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
-    expect(result).toEqual("Breakfast,,Dinner" + CRLF);
-    mockRowAsArray = ["", "Lunch", "Dinner"];
-    result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
-    expect(result).toEqual(",Lunch,Dinner" + CRLF);
-    mockRowAsArray = ["Breakfast", "Lunch", ""];
-    result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
-    expect(result).toEqual("Breakfast,Lunch," + CRLF);
-  });
-  xit("should gracefully handle null values in data and replace them with an empty strings", function () {
-    app.exportCSV = exposePrivateFunctions(app.exportCSV);
-    app.exportCSV(xhr, ENVINFO, '[{"0":"0"}]', "", false);
-    var mockRowAsArray = ["Breakfast", null, "Dinner"];
-    var result = app.exportCSV.reflect["parseRow"](mockRowAsArray);
-    expect(result).toEqual("Breakfast,,Dinner" + CRLF);
-  });
-
-  xdescribe ("exportCSV Exporter Integration Test (including browser mocks)", function() {
-    xit("should serialize an entire JSON object (i.e. integration test of RFC-4180 CSV format) passed into it and put fieldname labels at the start as a header row", function () {
-      var mockJSONData = [{
-        "FIRST_NAME": "catherine",
-        "LAST_NAME": "\"The Booze\" Cruse",
-        "EMAIL_ADDRESS": "ccruse60@gmail.com",
-        "BTM_NUMBER": 106057075,
-        "BOOKING_METHOD": "Online",
-        "ELIGIBLE": "Yes",
-        "NOTES": ""
-      },
-        {
-          "FIRST_NAME": "Fred",
-          "LAST_NAME": "West",
-          "EMAIL_ADDRESS": "fwest1961@gmail.com",
-          "BTM_NUMBER": 106253272,
-          "BOOKING_METHOD": "Manual",
-          "ELIGIBLE": "Yes",
-          "NOTES": ""
-        },
-        {
-          "FIRST_NAME": "Aikdo",
-          "LAST_NAME": "Fushjuitsma",
-          "EMAIL_ADDRESS": "AikdoFushjuitsma@gmail.com",
-          "BTM_NUMBER": 105769990,
-          "BOOKING_METHOD": "Manual",
-          "ELIGIBLE": "Yes",
-          "NOTES": ""
-        },
-        {
-          "FIRST_NAME": "Alexandra",
-          "LAST_NAME": "Masonry",
-          "EMAIL_ADDRESS": "Alexandra.Masonry@roehampton.ac.uk",
-          "BTM_NUMBER": 101420560,
-          "BOOKING_METHOD": "Manual",
-          "ELIGIBLE": "Yes",
-          "NOTES": ""
-        },
-        {
-          "FIRST_NAME": "Costas",
-          "LAST_NAME": "Boufontostremondos",
-          "EMAIL_ADDRESS": "waterfallsbytlc@gmail.com",
-          "BTM_NUMBER": 107034189,
-          "BOOKING_METHOD": "Online",
-          "ELIGIBLE": "Yes",
-          "NOTES": null
-        }
-      ];
-      var result = app.exportCSV(xhr, ENVINFO, (mockJSONData), "", false); //false means serialize to standard RFC-4180 format NOT quirky the MS Excel flavoured variant of CSV
-      var expected = "FIRST_NAME,LAST_NAME,EMAIL_ADDRESS,BTM_NUMBER,BOOKING_METHOD,ELIGIBLE,NOTES" + CRLF +
-          "catherine,\"\"\"The Booze\"\" Cruse\",ccruse60@gmail.com,106057075,Online,Yes," + CRLF +
-          "Fred,West,fwest1961@gmail.com,106253272,Manual,Yes," + CRLF +
-          "Aikdo,Fushjuitsma,AikdoFushjuitsma@gmail.com,105769990,Manual,Yes," + CRLF +
-          "Alexandra,Masonry,Alexandra.Masonry@roehampton.ac.uk,101420560,Manual,Yes," + CRLF +
-          "Costas,Boufontostremondos,waterfallsbytlc@gmail.com,107034189,Online,Yes," + CRLF;
-
-      expect(result).toEqual(expected);
-    });
-    xit("should serialize an entire JSON object (i.e. integration test of MS Excel CSV format) passed into it and put fieldname labels at the start as a header row", function () {
-      var mockJSONData = [{
-        "FIRST_NAME": "catherine",
-        "LAST_NAME": "\"The Booze\" Cruse",
-        "EMAIL_ADDRESS": "ccruse60@gmail.com",
-        "BTM_NUMBER": 106057075,
-        "BOOKING_METHOD": "Online",
-        "ELIGIBLE": "Yes",
-        "NOTES": ""
-      },
-        {
-          "FIRST_NAME": "Fred",
-          "LAST_NAME": "West",
-          "EMAIL_ADDRESS": "fwest1961@gmail.com",
-          "BTM_NUMBER": 106253272,
-          "BOOKING_METHOD": "Manual",
-          "ELIGIBLE": "Yes",
-          "NOTES": ""
-        },
-        {
-          "FIRST_NAME": "Aikdo",
-          "LAST_NAME": "Fushjuitsma",
-          "EMAIL_ADDRESS": "AikdoFushjuitsma@gmail.com",
-          "BTM_NUMBER": 105769990,
-          "BOOKING_METHOD": "Manual",
-          "ELIGIBLE": "Yes",
-          "NOTES": ""
-        },
-        {
-          "FIRST_NAME": "Alexandra",
-          "LAST_NAME": "Masonry",
-          "EMAIL_ADDRESS": "Alexandra.Masonry@roehampton.ac.uk",
-          "BTM_NUMBER": 101420560,
-          "BOOKING_METHOD": "Manual",
-          "ELIGIBLE": "Yes",
-          "NOTES": ""
-        },
-        {
-          "FIRST_NAME": "Costas",
-          "LAST_NAME": "Boufontostremondos",
-          "EMAIL_ADDRESS": "waterfallsbytlc@gmail.com",
-          "BTM_NUMBER": 107034189,
-          "BOOKING_METHOD": "Online",
-          "ELIGIBLE": "Yes",
-          "NOTES": null
-        }
-      ];
-      var result = app.exportCSV(xhr, ENVINFO, (mockJSONData), "", true); //false means serialize to standard RFC-4180 format NOT quirky the MS Excel flavoured variant of CSV
-      var expected = "=\"FIRST_NAME\",=\"LAST_NAME\",=\"EMAIL_ADDRESS\",=\"BTM_NUMBER\",=\"BOOKING_METHOD\",=\"ELIGIBLE\",=\"NOTES\"" + CRLF +
-          "=\"catherine\",=\"\"\"The Booze\"\" Cruse\",=\"ccruse60@gmail.com\",=\"106057075\",=\"Online\",=\"Yes\",=\"\"" + CRLF +
-          "=\"Fred\",=\"West\",=\"fwest1961@gmail.com\",=\"106253272\",=\"Manual\",=\"Yes\",=\"\"" + CRLF +
-          "=\"Aikdo\",=\"Fushjuitsma\",=\"AikdoFushjuitsma@gmail.com\",=\"105769990\",=\"Manual\",=\"Yes\",=\"\"" + CRLF +
-          "=\"Alexandra\",=\"Masonry\",=\"Alexandra.Masonry@roehampton.ac.uk\",=\"101420560\",=\"Manual\",=\"Yes\",=\"\"" + CRLF +
-          "=\"Costas\",=\"Boufontostremondos\",=\"waterfallsbytlc@gmail.com\",=\"107034189\",=\"Online\",=\"Yes\",=\"\"" + CRLF;
-
-      expect(result).toEqual(expected);
-    });
-    xit("should - if browser is Safari < version 6.0 - use a server-side fallback ", function() {
-    })
-  }); //End integration tests
-  xdescribe ("exportCSV With Mock for Safari Browser Test", function() {
-    xit("should - if browser is Safari < version 6.0 - use a server-side fallback ", function() {
-    })
-  }); //End integration tests
 
 
-
-
+  afterEach(function () { //xhr, ENVINFO, JSONData, fileName, bCSVforMSExcel
+    delete Function.prototype.reflect;
+    app.exportCSV = fnOriginalUnreflectedFunction;
+  });
 });
