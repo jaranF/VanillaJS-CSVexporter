@@ -297,10 +297,87 @@ describe('exportCSV2 (via Inner function exposer)', function () {
 
       expect(result).toEqual(expected);
     });
+    describe ("exportCSV With Mock for Safari Browser Test", function() {
+      it("should - if browser is Safari < version 15.0 - use a server-side fallback when serializing an entire JSON object (RFC-4180 CSV format) ", function() {
+        var mockJSONData = [{
+          "FIRST_NAME": "catherine",
+          "LAST_NAME": "\"The Booze\" Cruse",
+          "EMAIL_ADDRESS": "ccruse60@gmail.com",
+          "BTM_NUMBER": 106057075,
+          "BOOKING_METHOD": "Online",
+          "ELIGIBLE": "Yes",
+          "NOTES": ""
+        },
+          {
+            "FIRST_NAME": "Fred",
+            "LAST_NAME": "West",
+            "EMAIL_ADDRESS": "fwest1961@gmail.com",
+            "BTM_NUMBER": 106253272,
+            "BOOKING_METHOD": "Manual",
+            "ELIGIBLE": "Yes",
+            "NOTES": ""
+          },
+          {
+            "FIRST_NAME": "Aikdo",
+            "LAST_NAME": "Fushjuitsma",
+            "EMAIL_ADDRESS": "AikdoFushjuitsma@gmail.com",
+            "BTM_NUMBER": 105769990,
+            "BOOKING_METHOD": "Manual",
+            "ELIGIBLE": "Yes",
+            "NOTES": ""
+          },
+          {
+            "FIRST_NAME": "Alexandra",
+            "LAST_NAME": "Masonry",
+            "EMAIL_ADDRESS": "Alexandra.Masonry@roehampton.ac.uk",
+            "BTM_NUMBER": 101420560,
+            "BOOKING_METHOD": "Manual",
+            "ELIGIBLE": "Yes",
+            "NOTES": ""
+          },
+          {
+            "FIRST_NAME": "Costas",
+            "LAST_NAME": "Boufontostremondos",
+            "EMAIL_ADDRESS": "waterfallsbytlc@gmail.com",
+            "BTM_NUMBER": 107034189,
+            "BOOKING_METHOD": "Online",
+            "ELIGIBLE": "Yes",
+            "NOTES": null
+          }
+        ];
+
+        var mock = {
+          ENVINFO: {
+            browser: {
+              isIE: false,
+              isSafari: false,
+              version: 10
+            }
+          }
+        };
+
+        function safariFallback() {
+          return void(0);
+        } //end fn safariDownloadfallback
+
+        var fnSafariDownloadfallback = {
+          safariDownloadFallback:  safariFallback
+        };
+
+        spyOn(fnSafariDownloadfallback, 'safariDownloadFallback');
+
+        app.exportCSV.inject([mock, fnSafariDownloadfallback]).andExecuteWith(mockJSONData, "", false);
+        expect(fnSafariDownloadfallback.safariDownloadFallback).not.toHaveBeenCalled();
+
+        mock.ENVINFO.browser.isSafari = true;
+        app.exportCSV.inject([mock, fnSafariDownloadfallback]).andExecuteWith(mockJSONData, "", false);
+        expect(fnSafariDownloadfallback.safariDownloadFallback).toHaveBeenCalled();
+
+      })
+
+    }); //End integration tests
+
   }); //End integration tests
-
-
-
 
   afterEach(function () {
     delete Function.prototype.reflect;
